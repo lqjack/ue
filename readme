@@ -1,0 +1,31 @@
+ojdbc6.jar
+jta.jar
+jmscommon.jar
+aqapi.jar
+
+
+
+Create Users and Grant Permissions
+
+Create users in the database and grant them AQ JMS permissions. Use a database user with administrator privileges to perform the following task:
+
+Using the Oracle SQL*Plus environment, log in with an administrator login.
+
+connect / as sysdba;
+
+Create the JMS user schema. For the following example, 
+the user name is GGATE and the password is GGATE.
+
+//create user GGATE identified by GGATE default tablespace GGATE quota 10m on GGATE temporary tablespace temp;    
+
+Grant connect, resource TO GGATE IDENTIFIED BY GGATE;
+--Grant the AQ user role to GGATE.
+Grant aq_user_role TO GGATE;
+--Grant execute privileges to AQ packages
+Grant execute ON sys.dbms_aqadm TO GGATE;
+Grant execute ON sys.dbms_aq TO GGATE;
+Grant execute ON sys.dbms_aqin TO GGATE;
+Grant execute ON sys.dbms_aqjms TO GGATE;
+
+
+mvn install:install-file -Dfile={Path/to/your/ojdbc.jar} -DgroupId=com.oracle -DartifactId=ojdbc6 -Dversion=11.2.0 -Dpackaging=jar
